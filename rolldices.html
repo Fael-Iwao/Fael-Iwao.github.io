@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="stylesheet" type="text/css" href="lib/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="lib/fontawesome/css/all.min.css">
+		<link rel="stylesheet" href="css/style.css">
+		<style type="text/css">
+			#modView, #qtdView{ 
+				/* padding: 4px 15px; */
+				width: 70px;
+				height: 50px;
+				border: 3px solid green;
+				border-radius: 5px;
+				font-size: 30px;
+				text-align: center;
+
+			}
+			#mainResult{
+				height: 200px;
+				overflow:auto; 
+			}
+
+			ul > li{
+				list-style: none;
+				text-align: center;
+				width: 40px;
+				height: 40px;
+				border: 3px solid goldenrod;
+				color: goldenrod;
+				background-color: purple;
+				font-size: 20px;
+				display: inline-block;
+				margin: 5px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-12 mb-3 mt-5">
+					<h1 class="text-center text-Sketch">
+                        <i class="fas fa-dice-d20"></i>
+                        Gerador de dados para RPG
+                        <i class="fas fa-dice-d20"></i> 
+                    </h1>
+                    <hr>
+					
+				</div>
+				<div class="col-12 col-sm-6">
+					<h3 class="text-center">
+						Selecione o Dado
+					</h3>
+					<div class="dice-selector">
+                    
+                        <center>
+                    
+                            <input checked="checked" id="d2" type="radio" name="dice" value="2"/>
+                            <label class="card-dice d2 text-white" style="height: 110px;width: 110px;"  for="d2"></label>
+                            
+                            <input checked="checked" id="d4" type="radio" name="dice" value="4"/>
+                            <label class="card-dice d4 text-white" style="height: 110px;width: 110px;"  for="d4"></label>
+                            
+                            <input checked="checked" id="d6" type="radio" name="dice" value="6"/>
+                            <label class="card-dice d6 text-white" style="height: 110px;width: 110px;"  for="d6"></label>
+                            
+                            <input id="d8" type="radio" name="dice" value="8"/>
+                            <label class="card-dice d8 text-white" style="height: 110px;width: 110px;"  for="d8"></label>
+                            
+                            <input id="d10" type="radio" name="dice" value="10"/>
+                            <label class="card-dice d10 text-white" style="height: 110px;width: 110px;"  for="d10"></label>
+
+                            <input id="d12" type="radio" name="dice" value="12"/>
+                            <label class="card-dice d12 text-white" style="height: 110px;width: 110px;"  for="d12"></label>
+
+                            <input id="d20" type="radio" name="dice" value="20"/>
+                            <label class="card-dice d20 text-white" style="height: 110px;width: 110px;"  for="d20"></label>
+                            
+                            <input id="d100" type="radio" name="dice" value="100"/>
+                            <label class="card-dice d100 text-white" style="height: 110px;width: 110px;"  for="d100"></label>
+                        
+                    </center>
+
+						<label for="qtd" class="mb-0 ">Quantidade</label>
+						<input type="number" name="qtd" id="qtd" value="1" placeholder="qtd" class="form-control">
+						
+						<label for="mod" class="mb-0 ">Modificador</label>
+						<input type="number" id="mod" name="mod" value="0" placeholder="mod" class="form-control">
+						<button class="btn btn-success btn-lg w-100 my-2" id="rollDice">Rolar Dados</button>
+
+					</div>
+				</div>
+				<div class="col-12 col-sm-6 bg-light">
+					<div class="row">
+						<div class="col-12">
+							<h2 id="messageDice" class="text-center">Esperando rolagem de dados</h2>
+						</div>
+						<div class="col-12" id="mainResult">
+							<ul id="resultDice"></ul>
+						</div>
+						<div class="col-6" id="listMod" hidden>
+							<label for="modView"> Modificador: </label>
+							<label id="modView"></label>
+							
+						</div>
+						<div class="col-6" id="listQtd" hidden>
+							<label for="qtdView" > Quantidade: </label>
+							<label id="qtdView"></label>
+						</div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+		
+		
+
+		<script src="lib/jquery-3.1.1/jquery-3.1.1.js"></script>
+		<script src="lib/js/popper.min.js"></script>
+		<script src="lib/js/bootstrap.js"></script>
+		<script >
+			const apiLink = 'https://rpg-generator.herokuapp.com/api/';
+			$(document).ready(function() {
+				window.document.getElementById('rollDice').onclick = () => sendDice();
+			});
+
+
+			var sendDice = () =>{
+				let dice = document.querySelector('input[name="dice"]:checked').value.trim();
+				let qtd = document.getElementById('qtd').value.trim();
+				let mod = document.getElementById('mod').value.trim();
+				let stats = `?dice=${dice}&qtd=${qtd}&mod=${mod}`;
+				// console.log(`${apiLink}rollDice${stats}`)
+
+
+				
+				$.get(`${apiLink}rollDice${stats}`,(result)=> {
+					var resultDice = document.getElementById('resultDice');
+						resultDice.innerHTML = '';
+					document.getElementById('messageDice').innerHTML = `${result.dice} ${result.message}`; 
+
+					if(result.success){
+						let results = result.values
+						// console.log(results)
+						
+						for(let i = 0; i < results.length; i ++){
+							let li = document.createElement('li');
+							let text = document.createTextNode(results[i]);
+						
+							li.appendChild(text);
+							resultDice.appendChild(li);
+						}
+
+						document.getElementById('modView').innerText = result.mod
+						document.getElementById('qtdView').innerText = result.qtd
+						document.getElementById('listMod').removeAttribute('hidden')
+						document.getElementById('listQtd').removeAttribute('hidden')
+
+
+					}else{
+						document.getElementById('messageDice').innerHTML = `${result.message}`; 
+					}
+					
+
+						// console.log(result)
+				});
+				
+			}
+		</script>
+	</body>
+</html>
+

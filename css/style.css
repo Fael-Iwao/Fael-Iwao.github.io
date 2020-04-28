@@ -1,0 +1,120 @@
+
+@font-face {
+	font-family: "Ancient";
+	src: url("../lib/fonts/AncientModernTales.ttf")
+  }
+@font-face {
+	font-family: "Sketch Gothic";
+	src: url("../lib/fonts/Sketch Gothic School.ttf")
+  }
+
+.text-ancient{
+	font-family: 'Ancient' !important;
+}
+.text-Sketch{
+	font-family: 'Sketch Gothic' !important;
+}
+
+h1{
+	font-size: 65px;
+	color: rgb(44, 7, 44);
+}
+
+.toogleButton{
+	position: relative;
+	width: 40px;
+	height: 20px;
+	-webkit-appearance: none;
+	background: #c6c6c6;
+	outline: none;
+	border-radius: 20px;
+	box-shadow:  inset 0 0 5px #bebcbe;
+	transition: .5s;
+}
+
+.toogleButton:checked{
+	background: #00c853;
+}
+
+.toogleButton::before{
+	content: '';
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	background: #fff;
+	border-radius: 20px;
+	top:0;
+	left:0;
+	box-shadow: 0 2px 2px #bebcbe;
+	transition: .5s;
+}
+
+.toogleButton:checked::before{
+	left: 20px;
+}
+
+.dice-selector input{
+	margin:auto;
+	padding:auto;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
+}
+
+.card-dice{
+	border: 4px solid  rgb(170, 37, 37);
+	/* box-shadow: 0 0 4px red; */
+	cursor:pointer;
+
+    -webkit-transition: all 100ms ease-in;
+       -moz-transition: all 100ms ease-in;
+            transition: all 100ms ease-in;
+    -webkit-filter: brightness(1.6) grayscale(1) opacity(1);
+       -moz-filter: brightness(1.6) grayscale(1) opacity(1);
+            filter: brightness(1.6) grayscale(1) opacity(1);
+}
+.card-dice:hover{
+    -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
+       -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
+            filter: brightness(1.2) grayscale(.5) opacity(.9);
+}
+
+.dice-selector input:active +.card-dice{opacity: .9;}
+.dice-selector input:checked +.card-dice{
+    -webkit-filter: none;
+       -moz-filter: none;
+            filter: none;
+}
+
+
+.d2{
+	background:url(../img/d2.jpg) no-repeat center center  !important;
+	background-size: cover;
+}.d4{
+	background:url(../img/d4.jpg) no-repeat center center  !important;
+	background-size: cover;
+}
+.d6{
+	background:url(../img/d6.jpg) no-repeat center center  !important;
+	background-size: cover;
+}
+.d8{
+	background:url(../img/d8.jpg) no-repeat center center  !important;
+	background-size: cover;
+}
+.d10{
+	background:url(../img/d10.jpg) no-repeat center center  !important;
+	background-size: cover;
+}
+.d12{
+	background:url(../img/d12.jpg) no-repeat center center  !important;
+	background-size: cover;
+}
+.d20{
+	background:url(../img/d20.jpg) no-repeat center center  !important;
+	background-size: cover;
+}
+.d100{
+	background:url(../img/d100.jpg) no-repeat center center  !important;
+	background-size: cover;
+}
